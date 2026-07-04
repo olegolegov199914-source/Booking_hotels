@@ -14,9 +14,9 @@ class Settings(BaseSettings):
     def DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
-    # Со 2 версии Pydantic, class Config был заменен на атрибут model_config
-    # class Config:
-    #     env_file = ".env"
+    SECRET_KEY: str
+    ALGORITHM: str
+
     model_config = SettingsConfigDict(env_file=".env")
 
 settings = Settings()
