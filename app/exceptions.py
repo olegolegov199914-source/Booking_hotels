@@ -30,3 +30,23 @@ class IncorrectTokenFormatException(BookingException):
 
 class UserisNotPresentException(BookingException):
     status_code=status.HTTP_401_UNAUTHORIZED
+
+class RoomCannotBeBooked(BookingException):
+    status_code=status.HTTP_409_CONFLICT
+    detail="Не осталось свободных номеров"
+
+class DateExeption(BookingException):
+    status_code=status.HTTP_400_BAD_REQUEST
+    detail="Дата заезда должна быть раньше даты выезда"
+
+class HotelIDExeption(BookingException):
+    status_code=status.HTTP_404_NOT_FOUND
+    detail = "Отель с таким id не найден"
+
+class UserisNotPresentException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
+    detail="Пользователь не найден"
+
+class BookingNotFoundException(BookingException):
+    status_code=status.HTTP_403_FORBIDDEN
+    detail="Это бронирование не принадлежит вам"
