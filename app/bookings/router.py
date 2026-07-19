@@ -38,7 +38,6 @@ async def delete_booking(
         booking_id=booking_id,
         user_id=current_user.id
     )
-    print(f"🔍 Удаляем бронирование {booking_id} для пользователя {current_user.id}")
 
 
     if not deleted_booking:

@@ -42,7 +42,7 @@ class HotelDAO(BaseDAO):
                 booked_rooms.c.hotel_id == Hotels.id,
                 isouter=True
             ).where(
-                Hotels.location == location
+                Hotels.location.ilike(f"%{location}%")
             ).group_by(
                 Hotels.id
             )

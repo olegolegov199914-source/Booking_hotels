@@ -139,9 +139,7 @@ class BookingDAO(BaseDAO):
             booking = result.scalar_one_or_none()
 
             if not booking:
-                print(f"❌ Бронирование {booking_id} не найдено или не принадлежит пользователю {user_id}")
                 return None
-            print(f"✅ Бронирование найдено: {booking.id}, user_id={booking.user_id}")
             
             get_delete = delete(Bookings).where(
                 and_(
@@ -152,5 +150,4 @@ class BookingDAO(BaseDAO):
             await session.execute(get_delete)
             await session.commit()
             
-            print(f"✅ Бронирование {booking_id} удалено из БД!")
             return booking

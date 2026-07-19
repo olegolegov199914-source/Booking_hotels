@@ -55,7 +55,6 @@ async def get_current_user(request: Request):
         raise UserisNotPresentException()
     
     user = await UserDAO.find_by_id(int(user_id))
-    print(f"🔍 Пользователь из токена: id={user.id}, email={user.email}")
 
     return user
     
