@@ -13,6 +13,9 @@ class SBooking(BaseModel):
     total_cost : int
     total_days : int
 
+    class Config:
+        from_attributes = True
+
 class ShemaBookings(BaseModel):
     room_id: int
     user_id: int

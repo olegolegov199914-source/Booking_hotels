@@ -3,6 +3,7 @@ from datetime import date
 from fastapi import APIRouter, Request, Depends, status
 from app.bookings.dao import BookingDAO
 from app.bookings.shemas import SBooking
+from app.tasks.tasks import send_booking_confirmation_email
 from app.users.models import Users
 from app.users.dependencies import get_current_user
 from app.exceptions import RoomCannotBeBooked, BookingNotFoundException
@@ -21,6 +22,9 @@ async def add_booking(room_id: int, date_from: date, date_to: date,
     booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
     if not booking:
         raise RoomCannotBeBooked
+    booking_dict = SBooking.model_validate(booking).model_dump()
+    send_booking_confirmation_email.delay(booking_dict, user.email)
+    return booking_dict
     
 @router.get("")
 async def get_user_bookings(

@@ -50,7 +50,7 @@ class HotelDAO(BaseDAO):
             result = await session.execute(get_free_rooms)
             data = result.all()
 
-            hotels_with_free_rooms =[]
+            hotels_with_free_rooms = []
             for hotel, rooms_left in data:
                 if rooms_left is not None and rooms_left > 0:
                     hotels_with_free_rooms.append((hotel, rooms_left))

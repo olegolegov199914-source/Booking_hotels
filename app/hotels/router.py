@@ -1,34 +1,39 @@
 from datetime import date
-from app.exceptions import DateExeption, HotelIDExeption
 from fastapi import APIRouter
+from app.exceptions import DateExeption
 from app.hotels.shemas import SHotel, SHotelWithFreeRooms
 from app.hotels.dao import HotelDAO
-
+from fastapi_cache.decorator import cache  # ← ВАЖНО: импорт декоратора
+from typing import List
+from pydantic import parse_obj_as
+import asyncio
 router = APIRouter(
     prefix="/hotels",
     tags=["Hotels"],
 )
 
-@router.get("/{location}", response_model=list[SHotelWithFreeRooms])
+
+@router.get("/{location}")
+@cache(expire=30)
 async def get_hotels(
     location: str,
     date_from: date,
     date_to: date
-):
+) -> List[SHotelWithFreeRooms]:
     if date_from >= date_to:
         raise DateExeption
     
-    hotels_with_free_rooms = await HotelDAO.find_hotels_with_free_rooms(
+    await asyncio.sleep(2)
+
+
+    hotels = await HotelDAO.find_hotels_with_free_rooms(
         location=location,
         date_from=date_from,
-        date_to=date_to,
+        date_to=date_to
     )
-
-    if not hotels_with_free_rooms:
-        return []
-
+    
     result = []
-    for hotel, rooms_left in hotels_with_free_rooms:
+    for hotel, rooms_left in hotels:
         result.append(SHotelWithFreeRooms(
             id=hotel.id,
             name=hotel.name,
@@ -38,7 +43,7 @@ async def get_hotels(
             image_id=hotel.image_id,
             rooms_left=rooms_left
         ))
-
+    
     return result
     
 @router.get("/id/{hotel_id}", response_model=SHotel)
@@ -58,3 +63,5 @@ async def get_hotel_by_id(
         rooms_quantity=hotel.rooms_quantity,
         image_id=hotel.image_id,
     )
+
+

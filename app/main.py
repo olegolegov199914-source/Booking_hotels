@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Query, Depends
 from fastapi.staticfiles import StaticFiles
@@ -11,6 +13,12 @@ from app.hotels.router import router
 from app.hotels.rooms.router import router as rooms_router
 from app.pages.router import router as router_pages
 from app.images.router import router as router_images
+
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+
+from app.config import settings
+from redis import asyncio as aioredis
 
 
 app = FastAPI()
@@ -36,3 +44,14 @@ app.add_middleware(
     allow_methods=["GET","POST","OPTIONS", "DELETE", "PUT", "PUTCH"],
     allow_headers=["Conent-Type", "Set-Cookie","Access-Control-Allow-Headers", "Access-Control-Allow-Origin", "Authorization",]
 )
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
+    FastAPICache.init(RedisBackend(redis), prefix="cache")
+    yield
+    await redis.close()
+
+app.router.lifespan_context = lifespan
+
+
