@@ -1,11 +1,10 @@
 from datetime import date
 from fastapi import APIRouter
-from app.exceptions import DateExeption
+from app.exceptions import DateExeption, HotelIDExeption, LotOfDays
 from app.hotels.shemas import SHotel, SHotelWithFreeRooms
 from app.hotels.dao import HotelDAO
-from fastapi_cache.decorator import cache  # ← ВАЖНО: импорт декоратора
+from fastapi_cache.decorator import cache
 from typing import List
-from pydantic import parse_obj_as
 import asyncio
 router = APIRouter(
     prefix="/hotels",
@@ -13,8 +12,8 @@ router = APIRouter(
 )
 
 
-@router.get("/{location}")
-@cache(expire=30)
+@router.get("")
+# @cache(expire=30)
 async def get_hotels(
     location: str,
     date_from: date,
@@ -23,8 +22,9 @@ async def get_hotels(
     if date_from >= date_to:
         raise DateExeption
     
-    await asyncio.sleep(2)
-
+    days = (date_to - date_from).days
+    if days > 30:
+        raise LotOfDays
 
     hotels = await HotelDAO.find_hotels_with_free_rooms(
         location=location,

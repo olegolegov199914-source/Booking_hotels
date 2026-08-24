@@ -1,0 +1,101 @@
+[
+    {
+        "hotel_id": 1,
+        "name": "Улучшенный с террасой и видом на озеро",
+        "description": "",
+        "price": 24500,
+        "servisces": ["Бесплатный Wi‑Fi", "Кондиционер (с климат-контролем)"],
+        "quantity": 5,
+        "image_id": 7
+    },
+    {
+        "hotel_id": 1,
+        "name": "Делюкс Плюс",
+        "description": "",
+        "price": 22500,
+        "servisces": ["Бесплатный Wi‑Fi", "Кондиционер)"],
+        "quantity": 10,
+        "image_id": 8
+    },
+    {
+        "hotel_id": 2,
+        "name": "Номер на 2-х человек",
+        "description": "",
+        "price": 2450,
+        "servisces": [],
+        "quantity": 15,
+        "image_id": 9
+    },
+    {
+        "hotel_id": 2,
+        "name": "Номер на 3-х человек",
+        "description": "",
+        "price": 2000,
+        "servisces": [],
+        "quantity": 8,
+        "image_id": 10
+    },
+    {
+        "hotel_id": 3,
+        "name": "Номер полулюкс семейный с 1 двуспальной кроватью",
+        "description": "",
+        "price": 2400,
+        "servisces": ["Холодильник"],
+        "quantity": 20,
+        "image_id": 11
+    },
+    {
+        "hotel_id": 3,
+        "name": "2-комнатный номер люкс комфорт",
+        "description": "",
+        "price": 2500,
+        "servisces": [],
+        "quantity": 10,
+        "image_id": 12
+    },
+    {
+        "hotel_id": 4,
+        "name": "Стандарт двухместный",
+        "description": "",
+        "price": 5000,
+        "servisces": ["Бесплатный Wi‑Fi", "Холодильник"],
+        "quantity": 20,
+        "image_id": 13
+    },
+    {
+        "hotel_id": 4,
+        "name": "Стандарт улучшенный ПЛЮС",
+        "description": "",
+        "price": 7500,
+        "servisces": ["Бесплатный Wi‑Fi", "Холодильник", "Ванная комната", "Кондиционер"],
+        "quantity": 35,
+        "image_id": 14
+    },
+    {
+        "hotel_id": 5,
+        "name": "Номер стандарт с 2 односпальными кроватями (с завтраком)",
+        "description": "",
+        "price": 8500,
+        "servisces": [],
+        "quantity": 15,
+        "image_id": 15
+    },
+    {
+        "hotel_id": 5,
+        "name": "Номер полулюкс премиум (с завтраком)",
+        "description": "",
+        "price": 7800,
+        "servisces": [],
+        "quantity": 7,
+        "image_id": 16
+    },
+    {
+        "hotel_id": 6,
+        "name": "Стандарт (типовой корпус)",
+        "description": "",
+        "price": 9000,
+        "servisces": [],
+        "quantity": 45,
+        "image_id": 17
+    }
+]

@@ -1,7 +1,9 @@
 from datetime import date
-
+from sqlalchemy import select
 from fastapi import APIRouter, Request, Depends, status
+from fastapi_versioning import VersionedFastAPI, version
 from app.bookings.dao import BookingDAO
+from app.bookings.models import Bookings
 from app.bookings.shemas import SBooking
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.models import Users
@@ -13,6 +15,7 @@ router = APIRouter(
 )
 
 @router.get("")
+@version(1)
 async def get_bookings(user: Users = Depends(get_current_user))-> list[SBooking]:
     return await BookingDAO.find_all(user_id=user.id)
 
@@ -25,12 +28,12 @@ async def add_booking(room_id: int, date_from: date, date_to: date,
     booking_dict = SBooking.model_validate(booking).model_dump()
     send_booking_confirmation_email.delay(booking_dict, user.email)
     return booking_dict
-    
-@router.get("")
+
+@router.get("", response_model=list[SBooking])
 async def get_user_bookings(
-    current_user: Users = Depends(get_current_user)
+    current_user: Users = Depends(get_current_user),
 ):
-    bookings = await BookingDAO.get_user_bookings(user_id=current_user.id)
+    bookings = await BookingDAO.find_all(user_id=current_user.id)
     return bookings
 
 @router.delete("/{booking_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -43,7 +46,7 @@ async def delete_booking(
         user_id=current_user.id
     )
 
-
+    
     if not deleted_booking:
         raise BookingNotFoundException()
     

@@ -50,3 +50,7 @@ class UserisNotPresentException(BookingException):
 class BookingNotFoundException(BookingException):
     status_code=status.HTTP_403_FORBIDDEN
     detail="Это бронирование не принадлежит вам"
+
+class LotOfDays(BookingException):
+    status_code=status.HTTP_400_BAD_REQUEST
+    detail="Период бронирования не может быть более 30 дней"

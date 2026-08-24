@@ -19,13 +19,15 @@ async def register_user(user_data: SUserAuth):
     await UserDAO.add(email=user_data.email, hashed_password=hashed_password)
 
 @router.post("/login")
-async def register_user(response: Response, user_data: SUserAuth):
+async def login_user(response: Response, user_data: SUserAuth):
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
         raise IncorrectEmailOrPasswordException
+    
     access_token = create_access_token({"sub": str(user.id)})
     response.set_cookie("booking_access_token", access_token, httponly=True)
-    return access_token
+
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/logout")
 async def logout_user(response: Response):

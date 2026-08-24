@@ -1,0 +1,23 @@
+[
+    {
+        "room_id": 3 ,
+        "user_id": 1,
+        "date_from": "2023-05-15",
+        "date_to": "2023-05-20",
+        "price": 4570
+    },
+    {
+        "room_id": 7 ,
+        "user_id": 2,
+        "date_from": "2026-01-03",
+        "date_to": "2026-01-10",
+        "price": 4300
+    },
+    {
+        "room_id": 5 ,
+        "user_id": 1,
+        "date_from": "2026-09-13",
+        "date_to": "2026-09-20",
+        "price": 7080
+    }
+]

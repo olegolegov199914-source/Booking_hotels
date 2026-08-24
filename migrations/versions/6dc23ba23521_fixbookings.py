@@ -20,17 +20,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema."""
-    # Ваш код здесь
-    op.execute("""
-        ALTER TABLE bookings 
-        ALTER COLUMN total_cost DROP DEFAULT,
-        ALTER COLUMN total_cost SET GENERATED ALWAYS AS ((date_to - date_from) * price) STORED
-    """)
-    op.execute("""
-        ALTER TABLE bookings 
-        ALTER COLUMN total_days DROP DEFAULT,
-        ALTER COLUMN total_days SET GENERATED ALWAYS AS (date_to - date_from) STORED
-    """)
+    pass
 
 
 def downgrade() -> None:
