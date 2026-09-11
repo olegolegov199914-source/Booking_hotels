@@ -12,6 +12,7 @@ from pydantic import BaseModel
 from redis import asyncio as aioredis
 from sqladmin import Admin, ModelView
 from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.admin.auth import authentication_backend
 from app.admin.view import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
@@ -26,6 +27,7 @@ from app.pages.router import router as router_pages
 from app.users.models import Users
 from app.users.router import router as router_users
 from app.logger import logger
+from app.prometheus.router import router as prometheus_router
 
 app = FastAPI()
 
@@ -36,6 +38,7 @@ app.include_router(rooms_router)
 app.include_router(router_pages)
 app.include_router(router_images)
 app.include_router(import_router)
+app.include_router(prometheus_router)
 
 # origins = [
 #     "http://localhost:3000",
@@ -68,6 +71,12 @@ app = VersionedFastAPI(app,
     #     Middleware(SessionMiddleware, secret_key='mysecretkey')
     # ]
 )
+
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.*", "/metrics"]
+)
+Instrumentator().instrument(app).expose(app)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
